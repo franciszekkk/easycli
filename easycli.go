@@ -1,16 +1,13 @@
-package main
+package easycli
 
 import (
 	"fmt"
-	"log"
-	"os"
 	"path/filepath"
 
 	"github.com/goodylabs/easycli/ports"
 	"github.com/goodylabs/easycli/providers/github"
 	"github.com/goodylabs/easycli/release"
 	"github.com/goodylabs/easycli/utils"
-	"github.com/joho/godotenv"
 )
 
 type EasyCliInstance struct {
@@ -46,24 +43,5 @@ func ConfigureGithubApp(opts *github.GithubOpts) *EasyCliInstance {
 	return &EasyCliInstance{
 		release:  release.NewReleaseCfg(),
 		provider: github.NewGithubApp(opts),
-	}
-}
-
-func main() {
-	devPath := filepath.Join(".development")
-
-	if err := godotenv.Load(); err != nil {
-		log.Println(".env file not found, using system env")
-	}
-
-	githubUser := os.Getenv("GITHUB_USER")
-	githubRepo := os.Getenv("GITHUB_REPO")
-
-	app := ConfigureGithubApp(&github.GithubOpts{
-		User: githubUser,
-		Repo: githubRepo,
-	})
-	if err := app.Run(devPath); err != nil {
-		log.Fatal(err)
 	}
 }
