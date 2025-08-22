@@ -1,6 +1,6 @@
 package ports
 
 type Provider interface {
-	CheckForUpdates() (bool, error)
+	GetNewestReleaseName() (string, error)
 	PerformUpdate(path string) error
 }
