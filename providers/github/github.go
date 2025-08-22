@@ -45,7 +45,7 @@ func (g *githubApp) GetNewestReleaseName() (string, error) {
 		return "", err
 	}
 
-	assetName := fmt.Sprintf("tug-%s-%s", osType, osArch)
+	assetName := fmt.Sprintf("%s-%s", osType, osArch)
 	for _, asset := range releaseRes.Assets {
 		if asset.Name == assetName {
 			g.newReleaseUrl = asset.BrowserDownloadURL
