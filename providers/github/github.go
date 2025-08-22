@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/goodylabs/easycli/adapters/httpconnector"
-	"github.com/goodylabs/easycli/adapters/oshelper"
-	"github.com/goodylabs/easycli/ports"
+	"github.com/franciszekkk/easycli/adapters/httpconnector"
+	"github.com/franciszekkk/easycli/adapters/oshelper"
+	"github.com/franciszekkk/easycli/ports"
 )
 
 type GithubOpts struct {

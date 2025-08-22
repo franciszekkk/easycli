@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/goodylabs/easycli/adapters/prompter"
-	"github.com/goodylabs/easycli/ports"
-	"github.com/goodylabs/easycli/providers/github"
-	"github.com/goodylabs/easycli/release"
-	"github.com/goodylabs/easycli/utils"
+	"github.com/franciszekkk/easycli/adapters/prompter"
+	"github.com/franciszekkk/easycli/ports"
+	"github.com/franciszekkk/easycli/providers/github"
+	"github.com/franciszekkk/easycli/release"
+	"github.com/franciszekkk/easycli/utils"
 )
 
 type EasyCliInstance struct {

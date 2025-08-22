@@ -1,4 +1,4 @@
-module github.com/goodylabs/easycli
+module github.com/franciszekkk/easycli
 
 go 1.24.5
 

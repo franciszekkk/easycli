@@ -1,7 +1,7 @@
 package release
 
 import (
-	"github.com/goodylabs/easycli/utils"
+	"github.com/franciszekkk/easycli/utils"
 )
 
 type ReleaseCfg struct {

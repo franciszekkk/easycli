@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/goodylabs/easycli"
-	"github.com/goodylabs/easycli/providers/github"
+	"github.com/franciszekkk/easycli"
+	"github.com/franciszekkk/easycli/providers/github"
 	"github.com/joho/godotenv"
 )
 
