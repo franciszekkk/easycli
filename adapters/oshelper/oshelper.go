@@ -56,3 +56,10 @@ func (o *OsHelper) DownloadBinary(url, filepath string) error {
 
 	return nil
 }
+
+func (o *OsHelper) MakeDirIfNotExist(dir string) error {
+	if _, err := os.Stat(dir); os.IsNotExist(err) {
+		return os.MkdirAll(dir, 0755)
+	}
+	return nil
+}

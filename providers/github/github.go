@@ -2,6 +2,7 @@ package github
 
 import (
 	"fmt"
+	"path/filepath"
 
 	"github.com/goodylabs/easycli/adapters/httpconnector"
 	"github.com/goodylabs/easycli/adapters/oshelper"
@@ -44,8 +45,9 @@ func (g *githubApp) GetNewestReleaseName() (string, error) {
 		return "", err
 	}
 
+	assetName := fmt.Sprintf("tug-%s-%s", osType, osArch)
 	for _, asset := range releaseRes.Assets {
-		if asset.Name == fmt.Sprintf("%s-%s", osType, osArch) {
+		if asset.Name == assetName {
 			g.newReleaseUrl = asset.BrowserDownloadURL
 			break
 		}
@@ -54,7 +56,7 @@ func (g *githubApp) GetNewestReleaseName() (string, error) {
 	return g.newReleaseName, nil
 }
 
-func (g *githubApp) PerformUpdate(binaryPath string) error {
+func (g *githubApp) PerformUpdate(appDir string) error {
 	osType := g.oshelper.GetOSType()
 	osArch, err := g.oshelper.GetArch()
 	if err != nil {
@@ -67,11 +69,17 @@ func (g *githubApp) PerformUpdate(binaryPath string) error {
 
 	fmt.Println("Downloading binary from:", g.newReleaseUrl)
 
-	if err := g.oshelper.DownloadBinary(g.newReleaseUrl, binaryPath); err != nil {
+	binnaryDir := filepath.Join(appDir, "bin")
+	if err := g.oshelper.MakeDirIfNotExist(binnaryDir); err != nil {
 		return err
 	}
 
-	fmt.Println("Updated binary at:", binaryPath)
+	binnaryPath := filepath.Join(binnaryDir, g.opts.Repo)
+	if err := g.oshelper.DownloadBinary(g.newReleaseUrl, binnaryPath); err != nil {
+		return err
+	}
+
+	fmt.Println("Updated binary at:", binnaryPath)
 
 	return nil
 }

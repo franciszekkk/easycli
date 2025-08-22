@@ -13,12 +13,11 @@ import (
 type EasyCliInstance struct {
 	release  *release.ReleaseCfg
 	provider ports.Provider
+	appDir   string
 }
 
-func (e *EasyCliInstance) Run(appPath string) error {
-
-	configPath := filepath.Join(appPath, "config.json")
-
+func (e *EasyCliInstance) Run(appDir string) error {
+	configPath := filepath.Join(appDir, "config.json")
 	if !e.release.CheckNeedsCheck(configPath) {
 		return nil
 	}
@@ -30,7 +29,7 @@ func (e *EasyCliInstance) Run(appPath string) error {
 		return err
 	}
 
-	if err := e.provider.PerformUpdate(""); err != nil {
+	if err := e.provider.PerformUpdate(appDir); err != nil {
 		return err
 	}
 
