@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"path/filepath"
 
+	"github.com/goodylabs/easycli/adapters/prompter"
 	"github.com/goodylabs/easycli/ports"
 	"github.com/goodylabs/easycli/providers/github"
 	"github.com/goodylabs/easycli/release"
@@ -14,6 +15,7 @@ type EasyCliInstance struct {
 	release  *release.ReleaseCfg
 	provider ports.Provider
 	appDir   string
+	prompter *prompter.Prompter
 }
 
 func (e *EasyCliInstance) Run(appDir string) error {
@@ -29,18 +31,28 @@ func (e *EasyCliInstance) Run(appDir string) error {
 		return err
 	}
 
-	if err := e.provider.PerformUpdate(appDir); err != nil {
+	confirmMsg := fmt.Sprintf("New version %s is available. Do you want to update? ([y]/n)", newestRelease)
+	confirm, err := e.prompter.Confirm(confirmMsg)
+	if err != nil {
 		return err
 	}
 
 	e.release.ReleaseName = newestRelease
 	e.release.LastCheck = utils.GetCurrentDate()
-	return e.release.WriteReleaseCfg(configPath, e.release)
+	if err := e.release.WriteReleaseCfg(configPath, e.release); err != nil {
+		return err
+	}
+
+	if confirm {
+		return e.provider.PerformUpdate(appDir)
+	}
+	return nil
 }
 
 func ConfigureGithubApp(opts *github.GithubOpts) *EasyCliInstance {
 	return &EasyCliInstance{
 		release:  release.NewReleaseCfg(),
 		provider: github.NewGithubApp(opts),
+		prompter: prompter.NewPrompter(),
 	}
 }

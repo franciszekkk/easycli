@@ -11,15 +11,13 @@ func NewPrompter() *Prompter {
 }
 
 func (p *Prompter) Confirm(message string) (bool, error) {
-	prompt := promptui.Prompt{
-		Label:     message + " (Y/n)",
-		IsConfirm: true,
+	prompt := promptui.Select{
+		Label: message,
+		Items: []string{"Yes", "No"},
 	}
-
-	result, err := prompt.Run()
+	_, result, err := prompt.Run()
 	if err != nil {
 		return false, err
 	}
-
-	return result == "y" || result == "Y" || result == "", nil
+	return result == "Yes", nil
 }
